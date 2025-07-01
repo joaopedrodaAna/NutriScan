@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NutriScan</title>
+
+  <!-- Font Awesome (para ícones de olho) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right,  #91c791, #3a803a);
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      width: 70%;
+      max-width: 400px;
+      transition: all 0.3s ease;
+    }
+
+    .container h1 {
+      text-align: left;
+      color: #276749;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input {
+      width: 93%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .toggle-eye {
+      position: absolute;
+      top: 38px;
+      right: 10px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #589b4a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #84d69d;
+    }
+
+    .toggle {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .toggle button {
+  background-color: #589b4a;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 id="form-title">Login</h1>
+
+    <form id="loginForm">
+      <div id="form-content">
+        <!-- Campos de Login -->
+        <div class="form-group">
+          <label for="loginEmail">E-mail</label>
+          <input type="email" id="loginEmail" required />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Senha</label>
+          <input type="password" id="loginPassword" required />
+          <i class="fa-solid fa-eye toggle-eye" onclick="togglePassword('loginPassword', this)"></i>
+        </div>
+      </div>
+
+      <!-- Campos de Cadastro -->
+      <div id="registerFields" class="hidden">
+        <div class="form-group">
+          <label for="registerName">Nome completo</label>
+          <input type="text" id="registerName" />
+        </div>
+        <div class="form-group">
+          <label for="registerConfirm">Confirmar Senha</label>
+          <input type="password" id="registerConfirm" />
+          <i class="fa-solid fa-eye toggle-eye" onclick="togglePassword('registerConfirm', this)"></i>
+        </div>
+      </div>
+
+      <button type="submit" id="submitBtn">Entrar</button>
+
+      <div class="toggle">
+        <button type="button" id="toggleButton" onclick="toggleForm()">Cadastre-se</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const isLogin = { value: true };
+
+    function toggleForm() {
+      const title = document.getElementById("form-title");
+      const registerFields = document.getElementById("registerFields");
+      const submitBtn = document.getElementById("submitBtn");
+      const toggleButton = document.getElementById("toggleButton");
+
+      isLogin.value = !isLogin.value;
+
+      if (isLogin.value) {
+        title.textContent = "Login Nutrição";
+        submitBtn.textContent = "Entrar";
+        toggleButton.textContent = "Cadastre-se";
+        registerFields.classList.add("hidden");
+      } else {
+        title.textContent = "Cadastro Nutrição";
+        submitBtn.textContent = "Cadastrar";
+        toggleButton.textContent = "Já tem uma conta?";
+        registerFields.classList.remove("hidden");
+      }
+    }
+
+    function togglePassword(inputId, icon) {
+      const input = document.getElementById(inputId);
+      const isPassword = input.type === "password";
+      input.type = isPassword ? "text" : "password";
+
+      icon.classList.toggle("fa-eye");
+      icon.classList.toggle("fa-eye-slash");
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      if (isLogin.value) {
+        const email = document.getElementById("loginEmail").value;
+        const senha = document.getElementById("loginPassword").value;
+
+        // Simulação de login
+        alert("Login realizado com: " + email);
+      } else {
+        const nome = document.getElementById("registerName").value;
+        const email = document.getElementById("loginEmail").value;
+        const senha = document.getElementById("loginPassword").value;
+        const confirm = document.getElementById("registerConfirm").value;
+
+        if (senha !== confirm) {
+          alert("As senhas não coincidem!");
+          return;
+        }
+
+        // Simulação de cadastro
+        alert("Conta criada para: " + nome + " (" + email + ")");
+      }
+    });
+  </script>
+</body>
+</html>
